@@ -1,0 +1,25 @@
+a:12:{s:8:"encoding";s:5:"UTF-8";s:5:"title";s:18:"osCommerce Add-Ons";s:4:"link";s:25:"http://www.oscommerce.com";s:11:"description";s:29:"osCommerce, Sell With Emotion";s:8:"language";s:2:"en";s:9:"copyright";s:29:"Copyright (c) 2014 osCommerce";s:14:"managingEditor";s:19:"hpdl@oscommerce.com";s:11:"image_title";s:10:"osCommerce";s:9:"image_url";s:53:"http://www.oscommerce.com/images/oscommerce_88x31.gif";s:10:"image_link";s:25:"http://www.oscommerce.com";s:5:"items";a:5:{i:0;a:4:{s:5:"title";s:37:"Contribution support 1.0 for iOSC 5.x";s:4:"link";s:38:"http://addons.oscommerce.com/info/8578";s:11:"description";s:158:"Version 4.2 - 1 October 2014<br />
+<br />
+- USU SEO 5 Added multilanguage support for correct URLs when language is switched.<br />
+<br />
+<br />
+Full Package";s:7:"pubDate";s:31:"Sat, 04 Oct 2014 10:01:12 +0200";}i:1;a:4:{s:5:"title";s:27:"Create account admin + sppc";s:4:"link";s:38:"http://addons.oscommerce.com/info/9149";s:11:"description";s:602:"Only x 2 file changes customers.php and the language file quick and easy install<br />
+You will see a new button admin/Customers INSERT that's the magic<br />
+Works with SPPC extra file set included<br />
+Many thank to original coders <br />
+http://addons.oscommerce.com/info/1644<br />
+<br />
+This addon let you insert clients from the admin.<br />
+An email with the automated generated pass is sent to them.<br />
+100% friendly to osc source, this is an update to customers.php for osCommerce 2.3.4<br />
+Only x 2 file changes customers.php and language file<br />
+<br />
+# Tested in osCommerce 2.3.4";s:7:"pubDate";s:31:"Sat, 04 Oct 2014 06:42:35 +0200";}i:2;a:4:{s:5:"title";s:8:"Wishlist";s:4:"link";s:38:"http://addons.oscommerce.com/info/8665";s:11:"description";s:133:"Fixed some minor PHP errors in the catalog/wishlist.php and catalog/wishlist_public.php files.<br />
+<br />
+Complete install attached";s:7:"pubDate";s:31:"Sat, 04 Oct 2014 01:39:34 +0200";}i:3;a:4:{s:5:"title";s:45:"Multiple Sales Per Product for osCommerce 2.3";s:4:"link";s:38:"http://addons.oscommerce.com/info/8593";s:11:"description";s:733:"This version has minor updates to the install instructions primarily for updating the existing osCommerce admin/specials.php file and minor line number changes for osCommerce version 2.3.4. An extra index is also added to the specials table.<br />
+<br />
+All four admin side PHP files have been updated to correct minor PHP errors and to update the way the jQuery datepicker is used. The datepicker is now set up so that begin dates cannot be set after the end dates when the datepicker is used and a three month calendar is displayed.<br />
+<br />
+If you have already installed this contribution simply replace the four admin side PHP files. The language files for them have not been changed.<br />
+<br />
+Complete install enclosed.";s:7:"pubDate";s:31:"Fri, 03 Oct 2014 02:06:33 +0200";}i:4;a:4:{s:5:"title";s:14:"Chemo Compress";s:4:"link";s:38:"http://addons.oscommerce.com/info/8928";s:11:"description";s:145:"I have moved the function into a text file. I discovered that the HTML markup was garbling the code rendering it useless. All should be well now.";s:7:"pubDate";s:31:"Wed, 01 Oct 2014 17:03:37 +0200";}}s:11:"items_count";i:5;}
