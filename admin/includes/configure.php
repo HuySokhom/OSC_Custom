@@ -1,21 +1,21 @@
 <?php
-  define('HTTP_SERVER', 'http://localhost');
-  define('HTTPS_SERVER', 'http://localhost');
+  define('HTTP_SERVER', 'http://localhost:8080');
+  define('HTTPS_SERVER', 'http://localhost:8080');
   define('ENABLE_SSL', false);
   define('HTTP_COOKIE_DOMAIN', '');
   define('HTTPS_COOKIE_DOMAIN', '');
   define('HTTP_COOKIE_PATH', '/OSC/admin');
   define('HTTPS_COOKIE_PATH', '/OSC/admin');
-  define('HTTP_CATALOG_SERVER', 'http://localhost');
-  define('HTTPS_CATALOG_SERVER', 'http://localhost');
+  define('HTTP_CATALOG_SERVER', 'http://localhost:8080');
+  define('HTTPS_CATALOG_SERVER', 'http://localhost:8080');
   define('ENABLE_SSL_CATALOG', 'false');
-  define('DIR_FS_DOCUMENT_ROOT', '/var/www/OSC/');
+  define('DIR_FS_DOCUMENT_ROOT', 'C:/wamp/www/OSC/');
   define('DIR_WS_ADMIN', '/OSC/admin/');
   define('DIR_WS_HTTPS_ADMIN', '/OSC/admin/');
-  define('DIR_FS_ADMIN', '/var/www/OSC/admin/');
+  define('DIR_FS_ADMIN', 'C:/wamp/www/OSC/admin/');
   define('DIR_WS_CATALOG', '/OSC/');
   define('DIR_WS_HTTPS_CATALOG', '/OSC/');
-  define('DIR_FS_CATALOG', '/var/www/OSC/');
+  define('DIR_FS_CATALOG', 'C:/wamp/www/OSC/');
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
   define('DIR_WS_CATALOG_IMAGES', DIR_WS_CATALOG . 'images/');
@@ -35,7 +35,7 @@
 
   define('DB_SERVER', 'localhost');
   define('DB_SERVER_USERNAME', 'root');
-  define('DB_SERVER_PASSWORD', 'root');
+  define('DB_SERVER_PASSWORD', '');
   define('DB_DATABASE', 'osc');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', 'mysql');
