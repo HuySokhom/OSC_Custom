@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL ^ E_DEPRECATED ^ E_ERROR ^ E_WARNING ^ E_PARSE ^ E_NOTICE);
   define('HTTP_SERVER', 'http://localhost:8080');
   define('HTTPS_SERVER', 'http://localhost:8080');
   define('ENABLE_SSL', false);
