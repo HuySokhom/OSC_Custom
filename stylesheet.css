@@ -10,7 +10,7 @@
 */
 
 .ui-widget {
-  font-family: Lucida Grande, Lucida Sans, Verdana, Arial, sans-serif;
+  font-family: Lucida Sans, Verdana, Arial, sans-serif;
   font-size: 11px;
 }
 
@@ -23,6 +23,9 @@ body {
 }
 
 #bodyWrapper {
+	-webkit-box-shadow: 3px 6px 30px 0px rgba(0,0,0,1);
+	-moz-box-shadow: 3px 6px 30px 0px rgba(0,0,0,1);
+	box-shadow: 0px 3px 40px 0px #5c9;
 }
 
 #bodyContent {
@@ -405,6 +408,23 @@ SPAN.errorText {
   list-style-type: none;
   margin: 2px 2px 2px 10px;
   padding: 5px;
+}
+
+.infoBoxHeading {
+	padding: 12px;
+	font-size: 11px;
+}
+.ui-widget-header {
+	border: 1px solid #5c9;
+	/* background: #5c9ccc url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x; */
+	color: #fff;
+	font-weight: bold;
+	background: #5c9;
+}
+.ui-widget-content {
+	border: 1px solid #5c9;
+	background: #fcfdfd url(images/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x;
+	color: #222;
 }
 
 .accountLinkListEntry {
