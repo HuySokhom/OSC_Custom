@@ -493,6 +493,7 @@ function updateNet() {
   document.forms["new_product"].products_price.value = doRound(netValue, 4);
 }
 //--></script>
+<script type="text/javascript" src="includes/javascript/tinymce/js/tinymce/tinymce.min.js"></script>
     <?php echo tep_draw_form('new_product', FILENAME_CATEGORIES, 'cPath=' . $cPath . (isset($HTTP_GET_VARS['pID']) ? '&pID=' . $HTTP_GET_VARS['pID'] : '') . '&action=' . $form_action, 'post', 'enctype="multipart/form-data"'); ?>
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
@@ -568,7 +569,16 @@ updateGross();
             <td><table border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td class="main" valign="top"><?php echo tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']); ?>&nbsp;</td>
-                <td class="main"><?php echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id']))); ?></td>
+                <td class="main"><?php echo tep_draw_textarea_field(
+                		'products_description[' . $languages[$i]['id'] . ']', 
+                		'soft', 
+                		'100',
+                		'100', 
+						(empty($pInfo->products_id) 
+							? 
+						'' 
+							: 
+						tep_get_products_description($pInfo->products_id, $languages[$i]['id']))); ?></td>
               </tr>
             </table></td>
           </tr>
@@ -693,6 +703,32 @@ function showPiDelConfirm(piId) {
 <script type="text/javascript">
 $('#products_date_available').datepicker({
   dateFormat: 'yy-mm-dd'
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	tinymce.init({
+		selector: "textarea",
+	    theme: "modern",
+	    width: 800,
+	    height: 500,
+	    plugins: [
+	         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+	         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+	         "save table contextmenu directionality emoticons template paste textcolor"
+	   ],
+	   content_css: "css/content.css",
+	   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
+	   style_formats: [
+	        {title: 'Bold text', inline: 'b'},
+	        {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+	        {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+	        {title: 'Example 1', inline: 'span', classes: 'example1'},
+	        {title: 'Example 2', inline: 'span', classes: 'example2'},
+	        {title: 'Table styles'},
+	        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+	    ]
+	 });
 });
 </script>
 
@@ -1069,6 +1105,7 @@ $('#products_date_available').datepicker({
         </table></td>
       </tr>
     </table>
+    
 <?php
   }
 
