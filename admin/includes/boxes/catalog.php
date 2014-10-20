@@ -42,6 +42,11 @@
         'code' => FILENAME_PRODUCTS_EXPECTED,
         'title' => BOX_CATALOG_PRODUCTS_EXPECTED,
         'link' => tep_href_link(FILENAME_PRODUCTS_EXPECTED)
+      ),
+	  array(
+    	'code' => FILENAME_IMAGE_SLIDER,
+    	'title' => BOX_CATALOG_IMAGE_SLIDER,
+    	'link' => tep_href_link(FILENAME_IMAGE_SLIDER)
       )
     )
   );
