@@ -53,7 +53,9 @@ body {
   padding-top: 5px;
 }
 
-.infoBoxContainer { }
+.infoBoxContainer { 
+	padding-bottom: 10px;
+}
 
 .infoBoxHeading {
   padding: 2px;
@@ -430,4 +432,21 @@ SPAN.errorText {
 .accountLinkListEntry {
   float: left;
   margin-right: 5px;
+}
+#nav {
+	list-style: none;
+	z-index: 9;
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 0px;
+}
+
+#nav li {
+	float: left;
+	margin-right: 30px;
+}
+.search{
+	float: right;
+	margin-top: -18px;
+	font-size: 14px;
 }
