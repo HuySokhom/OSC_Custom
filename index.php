@@ -248,26 +248,26 @@
     <script type="text/javascript" src="js/slider/jssor.slider.js"></script>
     <script type="text/javascript" src="js/slider.js"></script>
     <link rel="stylesheet" type="text/css" href="js/cssslider/slider.css" />
-   <div id="slider2_container" style="position: relative; width: 575px;
+   <div id="slider2_container" style="position: relative; width: 98%;
         height: 300px;">
 
         <!-- Slides Container -->
-        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 300px;
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 780px; height: 300px;
             overflow: hidden;">
             <div>
+                <a u=image href="#"><img src="img/landscape/133202main_d_reichart_image2.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/3d-animated-frog-image.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/street_cars_wallpaper_ferraristreetcarwallpaper.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/Valentine-Fairy-Image-GraphicsFairy.jpg" /></a>
+            </div>
+            <div>
                 <a u=image href="#"><img src="img/landscape/01.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="img/landscape/02.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="img/landscape/03.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="img/landscape/04.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="img/landscape/05.jpg" /></a>
             </div>
         </div>
         <!-- bullet navigator container -->
