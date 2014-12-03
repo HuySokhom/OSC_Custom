@@ -23,7 +23,7 @@ if(isset($_FILES["myfile"]))
 		
 		move_uploaded_file ( $_FILES["myfile"]["tmp_name"], $output_dir . $NewImageName );
 		// echo "<br> Error: ".$_FILES["myfile"]["error"];
-		$title='g';
+		$title = $_POST['title'];
 		$link='gg';
 		tep_db_query("insert into image_slider (title, link, image) values ('" . $title . "', '" . $link . "', '" . $NewImageName . "')");
 
