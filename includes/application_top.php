@@ -178,7 +178,7 @@
     $spider_flag = false;
 
     if (tep_not_null($user_agent)) {
-      $spiders = file(DIR_WS_INCLUDES . 'spiders.txt');
+      $spiders = file(DIR_FS_CATALOG. DIR_WS_INCLUDES . 'spiders.txt');
 
       for ($i=0, $n=sizeof($spiders); $i<$n; $i++) {
         if (tep_not_null($spiders[$i])) {
