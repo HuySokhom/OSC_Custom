@@ -11,7 +11,13 @@ require(DIR_WS_INCLUDES . 'template_top.php');
 		<td class="pageHeading">
 			Image Slider
 		</td>
-		<td align="right"><button><a href="image_silder_insert.php">Insert</a></button></td>
+		<td align="right">
+			<a href="image_silder_insert.php">
+				<button>
+					Insert
+				</button>
+			</a>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="2">
