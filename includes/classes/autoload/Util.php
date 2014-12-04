@@ -1,14 +1,29 @@
 <?php
 
 class Util {
-	
-	
+
 	private function __construct() {
 		// singleton
 	}
 	
+	static function startsWith($haystack,$needle,$case=true) {
+		if($case)
+			return strpos($haystack, $needle, 0) === 0;
+	
+		return stripos($haystack, $needle, 0) === 0;
+	}
+	
+	static function endsWith($haystack,$needle,$case=true) {
+		$expectedPosition = strlen($haystack) - strlen($needle);
+	
+		if($case)
+			return strrpos($haystack, $needle, 0) === $expectedPosition;
+	
+		return strripos($haystack, $needle, 0) === $expectedPosition;
+	}
+	
 	/**
-	 * encodes a string / array values to utf8 using Encode::toUTF8
+	 * encodes a string / array values to utf8
 	 * @param (mixed) $mixed
 	 */
 	static function utf8Encode( $mixed ) {
@@ -17,46 +32,40 @@ class Util {
 				$mixed[$key] = self::utf8Encode( $value );
 			}
 		} else {
-			$mixed = Encoding::toUTF8( $mixed );	
-		}
-		
-		return $mixed;
-	}
-
-	static function closetags($content) {
-		preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $content, $result);
-		$openedtags = $result[1];
-		preg_match_all('#</([a-z]+)>#iU', $content, $result);
-		$closedtags = $result[1];
-		$len_opened = count($openedtags);
-		if (count($closedtags) == $len_opened) {
-			return $content;
-		}
-		$openedtags = array_reverse($openedtags);
-		for ($i=0; $i < $len_opened; $i++) {
-			if (!in_array($openedtags[$i], $closedtags)) {
-				$content .= '</'.$openedtags[$i].'>';
-			} else {
-				unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+			if( !mb_check_encoding( $mixed, 'UTF-8') ) {
+				$mixed = utf8_encode( $mixed );
 			}
 		}
-		return $content;
+	
+		return $mixed;
 	}
 	
-	static function linkifyString( $string ) {
-		$string = preg_replace(
-			array(
-				'/[\pP]/',
-				'/[\W]+/'
-			), 
-			array(
-				'',
-				'-'
-			),
-			$string 
-		);
-		
-		return trim($string, ' -');
+	/**
+	 * truncate a string to nearest whole word
+	 * @param (string) $string
+	 * @param (int) $your_desired_width
+	 * @param (string) $ending
+	 * @return (string) truncated string
+	 */
+	static function truncateString($string, $length_limit, $ending = false) {
+		$parts = preg_split('/([\s\n\r]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE);
+		$parts_count = count($parts);
+	
+		$length = 0;
+		$last_part = 0;
+		for (; $last_part < $parts_count; ++$last_part) {
+			$length += strlen($parts[$last_part]);
+			if ($length > $length_limit) {
+				break;
+			}
+		}
+	
+		$truncated_string = implode(array_slice($parts, 0, $last_part));
+		if( strlen($ending) > 0 && strlen( $truncated_string ) < strlen( $string )) {
+			$truncated_string .= $ending;
+		}
+	
+		return $truncated_string;
 	}
 	
 	
@@ -160,109 +169,112 @@ class Util {
 			}
 		}
 		return $truncate;
-	}	
-	
+	}
 	
 	/**
-	 * returns a human-sensical "time ago" string based on $date
-	 * - based on timeAgo Smarty modifier 
-	 * @author   Stephan Otto
+	 * determines whether or not a url is relative
 	 * 
-	 * @param (mixed) $date
+	 * Expected Parameters:
+	 * - (string) url
 	 */
-	static function dateTimeAgo( $date, $debug = false ) {
-		// english
-		$timeStrings = array(   
-			'just now',            // 0       <- now or future posts :-)
-			'second ago', 'seconds ago',    // 1,1
-			'minute ago', 'minutes ago',      // 3,3
-			'hour ago', 'hours ago',   // 5,5
-			'day', 'days',         // 7,7
-			'week', 'weeks',      // 9,9
-			'month', 'months',      // 11,12
-			'year', 'years'      // 13,14
+	static function isRelativeUrl( $params ) {
+		foreach(array(
+			'http://',
+			'https://',
+			'//'
+		) as $str ){
+			if( strpos($params['url'], $str) === 0 ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * uses assetic to consolidate and compress files
+	 * 
+	 * Expected Parameters: 
+	 * - (string) filename | name of asset
+	 * - (string) type | supported: js, css
+	 * - (mixed) files | file(s) to minify
+	 */
+	static function Assetify( $params ){
+		$files = is_array($params['files']) ? $params['files'] : array($params['files']);
+		
+		// if minification is not enabled, output the files normally
+		if( !SETTING_ENABLE_MINIFICATION ) {
+			$output = '';
+			switch( $params['type'] ) {
+				case 'js':
+					foreach( $files as $file ) {
+						$output .= '<script type="text/javascript" src="' . $file . '"></script>';
+					}
+					break;
+						
+				case 'css':
+					$output .= '<style type="text/css">' . "\n";
+					foreach( $files as $file ) {
+						$output .= '@import url("' . $file . '");' . "\n";
+					}
+					$output .= '</style>';
+					break;
+			}
+		
+			return $output;
+		}
+		
+		
+		// Assetic operations..
+		$factory = new Assetic\Factory\AssetFactory( DIR_FS_CATALOG );
+		$factory->addWorker(new Assetic\Factory\Worker\CacheBustingWorker(Assetic\Factory\Worker\CacheBustingWorker::STRATEGY_MODIFICATION));
+		
+		// filter manager
+		$fm = new Assetic\FilterManager();
+		
+		switch( $params['type'] ) {
+			case 'js':
+				$factory->setDefaultOutput('assets/*');
+				$fm->set('min', new Assetic\Filter\JSMinFilter());
+				break;
+		
+			case 'css':
+				$factory->setDefaultOutput('assets/*');
+				$fm->set('min', new Assetic\Filter\CssMinFilter());
+				break;
+		}
+		$factory->setFilterManager($fm);
+		
+		$asset = $factory->createAsset(
+			$files,
+			array(
+				'min'
+			),
+			array(
+				'name' => $params['filename']
+			)
 		);
 		
-		$dateTimestamp = ( strtotime($date) ? strtotime($date) : $date );
+		// only write the cache file if it does not already exist..
+		if( !file_exists( DIR_FS_CATALOG . $asset->getTargetPath()) ) {
+			$writer = new Assetic\AssetWriter(DIR_FS_CATALOG);
+			$writer->writeAsset($asset);
 		
-		if( !is_int($date) ) {
-			$sec = time() - $dateTimestamp;
-		} else {
-			$sec = time() - $date;
+			// TODO: write some code to garbage collect files of a certain age?
+			// possible alternative, modify CacheBustingWorker to have option to append a timestamp instead of a hash
 		}
 		
-// 		if( $debug == true ) {
-// 			return 'date: ' . $sec;
-// 		}
-		
-		if ( $sec <= 0) return $timeStrings[0];
-		
-		if ( $sec < 2) return $sec." ".$timeStrings[1];
-		if ( $sec < 60) return $sec." ".$timeStrings[2];
-		
-		$min = $sec / 60;
-		if ( floor($min+0.5) < 2) return floor($min+0.5)." ".$timeStrings[3];
-		if ( $min < 60) return floor($min+0.5)." ".$timeStrings[4];
-		
-		$hrs = $min / 60;
-		echo ($debug == true) ? "hours: ".floor($hrs+0.5)."<br />" : '';
-// 		if ( floor($hrs+0.5) < 2) return floor($hrs+0.5)." ".$timeStrings[5];
-// 		if ( $hrs < 24) return floor($hrs+0.5)." ".$timeStrings[6];
-		
-		
-		$midnightTs = strtotime(date('Y-m-d', $dateTimestamp) . ' 00:00:00');
-		// today
-		if( $midnightTs == strtotime(date('Y-m-d') . ' 00:00:00') ){
-			return (
-				floor($hrs+0.5) . " " . (
-					floor($hrs+0.5) < 2
-						?
-					$timeStrings[5]
-						:
-					$timeStrings[6]
-				) 
-			);
+		$output = '';
+		switch( $params['type'] ) {
+			case 'js':
+				$output .= '<script type="text/javascript" src="' . $asset->getTargetPath() . '"></script>';
+				break;
+					
+			case 'css':
+				$output .= '<link rel="stylesheet" type="text/css" href="' . $asset->getTargetPath() . '" />';
 		}
 		
-		// yesterday
-		elseif( $midnightTs > strtotime(date('Y-m-d') . ' 00:00:00') - 86459 ){
-			return 'Yesterday';
-		}
-		
-		// anything earlier..
-		else {
-			return date('m/d/Y', $dateTimestamp);
-		}
-		
-		// nothing goes beyond this point..
-		
-		
-// 		$days = $hrs / 24;
-// 		echo ($debug == true) ? "days: ".floor($days+0.5)."<br />" : '';
-		
-// 		if( floor($days+0.5) < 2 ) {
-// 			return 'yesterday';
-// 		} else {
-// 			return date('m/d/Y', $dateTimestamp);
-// 		}
-			
-// 		if ( floor($days+0.5) < 2) return floor($days+0.5)." ".$timeStrings[7];
-// 		if ( $days < 7) return floor($days+0.5)." ".$timeStrings[8];
-		
-// 		$weeks = $days / 7;
-// 		echo ($debug == true) ? "weeks: ".floor($weeks+0.5)."<br />" : '';
-// 		if ( floor($weeks+0.5) < 2) return floor($weeks+0.5)." ".$timeStrings[9];
-// 		if ( $weeks < 4) return floor($weeks+0.5)." ".$timeStrings[10];
-		
-// 		$months = $weeks / 4;
-// 		if ( floor($months+0.5) < 2) return floor($months+0.5)." ".$timeStrings[11];
-// 		if ( $months < 12) return floor($months+0.5)." ".$timeStrings[12];
-		
-// 		$years = $weeks / 51;
-// 		if ( floor($years+0.5) < 2) return floor($years+0.5)." ".$timeStrings[13];
-		
-		
-// 		return floor($years+0.5)." ".$timeStrings[14];		
+		return $output;
 	}
 	
 	/**
@@ -272,118 +284,30 @@ class Util {
 	 * @param (string) $string
 	 * @return (string) | converted string
 	 */
-	static function convertSmartQuotes($string) { 
-	    $search = array(
-	    	'‘', 
-	        '’', 
-	        '“', 
-	        '”',
-	    	'…',
-	    	'–',
-	    	'—'
-	    ); 
-	 
-	    $replace = array(
-	    	"'", 
-	        "'", 
-	        '"', 
-	        '"',
-	    	'...',
-	    	'-',
-	    	'-'
-	    ); 
-	 
-	    return str_replace($search, $replace, $string); 
-	} 
-	
-	/**
-	 * determines if ironically named "smart" quotes are present in a string
-	 * 
-	 * @param (string) $string
-	 * @return (bool) true if present, false otherwise
-	 */
-	static function isSmartQuotesPresent($string) {
+	static function convertSmartQuotes($string) {
 		$search = array(
-			chr(145),
-			chr(146),
-			chr(147),
-			chr(148),
-			chr(151)
+			'‘',
+			'’',
+			'“',
+			'”',
+			'…',
+			'–',
+			'—'
 		);
-		
-		foreach( $search as $char ) {
-			if( strpos($string, $char) !== false ) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
- 
 	
-	/**
-	 * 
-	 * logs an event for later evaluation
-	 * 
-	 * Expected Params:
-	 * - (string) logfile | absolute path to logfile
-	 * - (string) event_name
-	 * - (array) variables
-	 */
-	static function logEvent( $params = array() ){
-		ob_start();
-		echo "\n\n ============================================= \n [***LOG_BEGIN***] \n";
-		echo "event: " . $params['event_name'] . "\n";
-		echo "time: " . date(DATE_RFC2822) . "\n\n";
-		
-		// variables
-		if( is_array($params['variables']) ){
-			echo "Variables: \n";
-			foreach( $params['variables'] as $key => $val ){
-				echo "\t- [$key]: \n";
-				var_dump( $val );
-				echo "\n\n";
-			}
-		}
-		
-		// server
-		echo "SERVER: \n";
-		var_dump( $_SERVER );
-		echo "\n\n";
-		
-		// get
-		echo "GET: \n";
-		var_dump( $_GET );
-		echo "\n\n";
-		
-		// post
-		echo "POST: \n";
-		var_dump( $_POST );
-		echo "\n\n";
-		
-		// session
-		echo "SESSION: \n";
-		var_dump( $_SESSION );
-		echo "\n\n";
-		
-		// cookie
-		echo "COOKIE: \n";
-		var_dump( $_COOKIE );
+		$replace = array(
+			"'",
+			"'",
+			'"',
+			'"',
+			'...',
+			'-',
+			'-'
+		);
+	
+		return str_replace($search, $replace, $string);
+	}
 
-		
-		echo "\n\n [***LOG_END***] \n ============================================= \n\n";
-		
-		
-		$output = ob_get_contents();
-		file_put_contents(
-			$params['logfile'],
-			$output,
-			FILE_APPEND
-		);
-		
-		ob_end_clean();
-	}
-	
 	/**
 	 * converts camelCase to snake_case
 	 * @param (string) $val
@@ -391,9 +315,9 @@ class Util {
 	 */
 	static function camelToSnake($val) {
 		return preg_replace_callback(
-				'/[A-Z]/',
-				create_function('$match', 'return "_" . strtolower($match[0]);'),
-				$val
+			'/[A-Z]/',
+			create_function('$match', 'return "_" . strtolower($match[0]);'),
+			$val
 		);
 	}
 	
@@ -408,6 +332,29 @@ class Util {
 		return $val;
 	}
 	
+	
+	static function randString(
+		$length, 
+		$charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+	){
+		$str = '';
+		$count = strlen($charset);
+		while ($length--) {
+			$str .= $charset[mt_rand(0, $count-1)];
+		}
+		return $str;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
 
 

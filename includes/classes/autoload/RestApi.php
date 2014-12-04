@@ -1,15 +1,14 @@
 <?php
 
+use \Aedea\Core\Database\StdCollection as DbCollection;
+
 class RestApi {
 	
 	private 
 		$id,
 		$owner
 	;
-	
-	protected 
-		$cacheLife = 0 // no cache by default
-	;
+
 	
 	public function __construct( $params = false ) {
 	
@@ -39,9 +38,9 @@ class RestApi {
 			$this->setOwner( $params['owner'] );
 		}
 		
-		// if there is an inital "api/" in the request, remove it
-		if( strpos($params['request'], 'api/') === 0 ) {
-			$params['request'] = substr($params['request'], 4); // length of "api/" is 4
+		// if resource starts with "api/", strip it
+		if( strpos($params['request'], 'api/' ) === 0 ){
+			$params['request'] = substr($params['request'], 4);
 		}
 		
 		if( $params['request'] ) {
@@ -86,34 +85,93 @@ class RestApi {
 	}
 	
 	
-	##### CORE METHODS #####
-	public function get( $params = false ) {
-		$data = RestApiResources::cache_load(array(
-			'obj' => $this,
-			'max_age' => $this->cacheLife // 5 minutes
-		));
 	
+	/*
+	 * 	convenience methods
+	 */
+	protected function getReturn( DbCollection $col, $params = array() ){
+		// decide what we're returning..
+		$return = isset($params['return'])
+				?
+			$params['return']
+				:
+			false
+		;
+	
+		switch( $return ){
+			case 'count':
+				return $this->getReturnCount($col);
+	
+			default:
+				return $this->getReturnDefault($col, $params);
+		}
+	}
+	
+	protected function getReturnCount( DbCollection $col ){
 		return array(
-			'data' => $data,
-			// 			'debug_mode' => true
+			'data' => array(
+				'count' => $col->getTotalCount()
+			)
 		);
 	}
 	
-	public function put( $params = false ) {
-		$PUT = $params['request']; // for security reasons, we do not allow user PUTs by default..
-		// create a custom PUT method and call the parent if this is necessary
+	protected function getReturnDefault( DbCollection $col, $params ){
+		$col->populate();
 	
-		if( !isset( $PUT['data']) ) {
-			throw new Exception("PUT.data must be set", 400);
-		} 
+		return array(
+			'data' => array(
+				'elements' => $col->getElementsAsArray($params),
+			)
+		);
+	}
+
+	public function applyFilters( DbCollection $col, $params = array() ){
+		// support singular requests..
+		if( $this->getId() ){
+			$params['filters']['id'] = $this->getId();
+		}
 		
-		RestApiResources::cache_update(array(
-			'obj' => $this,
-			'data' => $PUT['data']
-		));
-	
+		if( is_array($filters = $params['filters']) ){
+			foreach( $filters as $k => $v ){
+				$col->setFilter($k, $v);
+			}
+		}
 	}
 	
+	
+	public function applySortBy( DbCollection $col, $params = array() ){
+		if( is_array($sort_bys = $params['sort_by']) ){
+			foreach( $sort_bys as $sort_by ){
+				$col->setSortBy($sort_by);
+			}
+		}
+		
+		else if( is_string($sort_by = $params['sort_by']) ){
+			$col->setSortBy($sort_by);
+		}
+	}
+	
+	public function applyLimit( DbCollection $col, $params = array() ){
+		if( is_array($limit = $params['limit']) ){
+			if( sizeof($limit) == 1 ){
+				$col->setLimit($limit[0]);
+			} else {
+				$col->setLimit($limit[0], $limit[1]);
+			}
+		}
+		
+		elseif(
+			is_numeric($limit)
+				&&
+			$limit < 100
+		){
+			$col->setLimit($limit);
+		}
+		
+		else {
+			$col->setLimit(100);
+		}
+	}
 	
 }
 
