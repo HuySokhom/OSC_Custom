@@ -36,3 +36,10 @@
 
 # php_value session.use_trans_sid 0
 # php_value register_globals 1
+
+RewriteEngine On 
+RewriteBase /OSC/admin/
+
+# start api
+RewriteRule ^api/ api/index.php [L,QSA]
+# /end api
