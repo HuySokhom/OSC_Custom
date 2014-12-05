@@ -249,7 +249,7 @@
     <script type="text/javascript" src="js/slider.js"></script>
     <link rel="stylesheet" type="text/css" href="js/cssslider/slider.css" />
    <div id="slider2_container" style="position: relative; width: 98%;
-        height: 300px;">
+        height: 300px; margin-top: 5px;">
 
         <!-- Slides Container -->
         <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 780px; height: 300px;
