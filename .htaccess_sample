@@ -35,3 +35,7 @@ RewriteRule ^(.*)-nri-(.*).html$ newsdesk_reviews_info.php?newsdesk_id=$2&%{QUER
 RewriteRule ^(.*)-nra-(.*).html$ newsdesk_reviews_article.php?newsdesk_id=$2&%{QUERY_STRING}
 RewriteRule ^(.*)-po-([0-9]+).html$ pollbooth.php?pollid=$2&%{QUERY_STRING}
 # End Ultimate SEO V2.2d
+
+# start api
+RewriteRule ^api/ api/index.php [L,QSA]
+# /end api

@@ -40,5 +40,6 @@
 
       return $trail_string;
     }
+
   }
 ?>

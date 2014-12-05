@@ -243,6 +243,42 @@
 <?php
   } else { // default page
 ?>
+<script type="text/javascript" src="js/slider/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/slider/jssor.js"></script>
+    <script type="text/javascript" src="js/slider/jssor.slider.js"></script>
+    <script type="text/javascript" src="js/slider.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/cssslider/slider.css" />
+   <div id="slider2_container" style="position: relative; width: 98%;
+        height: 300px; margin-top: 5px;">
+
+        <!-- Slides Container -->
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 780px; height: 300px;
+            overflow: hidden;">
+            <div>
+                <a u=image href="#"><img src="img/landscape/133202main_d_reichart_image2.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/3d-animated-frog-image.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/street_cars_wallpaper_ferraristreetcarwallpaper.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/Valentine-Fairy-Image-GraphicsFairy.jpg" /></a>
+            </div>
+            <div>
+                <a u=image href="#"><img src="img/landscape/01.jpg" /></a>
+            </div>
+        </div>
+        <!-- bullet navigator container -->
+        <div u="navigator" class="jssorb01" style="position: absolute; bottom: 16px; right: 10px;">
+            <!-- bullet navigator item prototype -->
+            <div u="prototype" style="POSITION: absolute; WIDTH: 12px; HEIGHT: 12px;"></div>
+        </div>
+    </div>
+    <!-- Jssor Slider End -->
+
+
 
 <h1><?php echo HEADING_TITLE; ?></h1>
 
