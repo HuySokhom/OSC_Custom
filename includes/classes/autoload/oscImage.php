@@ -8,7 +8,31 @@ class oscImage extends DatabaseLoadableObject {
 	;
 	
 	public function load(){
-		// @todo
+		if( !$this->getId() ) {
+			throw new Exception("load method requires id to be set");
+		}
+		
+		$q = $this->dbQuery("
+			SELECT
+				title,
+				image,
+				link
+			FROM
+				image_slider
+			WHERE
+				id = '" . (int)$this->getId() . "'
+		");
+		
+		if( $this->dbNumRows( $q ) < 1 ) {
+			throw new Exception("image_slider id [" . $this->getId() . "] could not be loaded");
+		}
+		
+		$r = $this->dbFetchArray( $q );
+		
+		$this->title = $r['title'];
+		
+		$this->link = $r['link'];
+		$this->image = $r['image'];	
 	}
 	
 	public function save(){
@@ -19,7 +43,7 @@ class oscImage extends DatabaseLoadableObject {
 		
 		$this->dbQuery("
 			INSERT INTO
-				specials
+				image_slider
 			(
 				title,
 				image,
