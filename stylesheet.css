@@ -10,12 +10,12 @@
 */
 
 .ui-widget {
-  font-family: Lucida Grande, Lucida Sans, Verdana, Arial, sans-serif;
+  font-family: Lucida Sans, Verdana, Arial, sans-serif;
   font-size: 11px;
 }
 
 body {
-  background: #fff;
+  background: #f3f3f3;
   color: #000;
   margin: 0px;
   font-size: 11px;
@@ -23,6 +23,12 @@ body {
 }
 
 #bodyWrapper {
+	-webkit-box-shadow: 3px 6px 30px 0px rgba(0,0,0,1);
+	-moz-box-shadow: 3px 6px 30px 0px rgba(0,0,0,1);
+	/*box-shadow: 0px 3px 40px 0px #5c9;*/
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: #fff;
 }
 
 #bodyContent {
@@ -50,7 +56,9 @@ body {
   padding-top: 5px;
 }
 
-.infoBoxContainer { }
+.infoBoxContainer { 
+	padding-bottom: 10px;
+}
 
 .infoBoxHeading {
   padding: 2px;
@@ -407,7 +415,41 @@ SPAN.errorText {
   padding: 5px;
 }
 
+.infoBoxHeading {
+	padding: 12px;
+	font-size: 11px;
+}
+.ui-widget-header {
+	border: 1px solid #5c9;
+	/* background: #5c9ccc url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x; */
+	color: #fff;
+	font-weight: bold;
+	background: #5c9;
+}
+.ui-widget-content {
+	border: 1px solid #5c9;
+	background: #fcfdfd url(images/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x;
+	color: #222;
+}
+
 .accountLinkListEntry {
   float: left;
   margin-right: 5px;
+}
+#nav {
+	list-style: none;
+	z-index: 9;
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 0px;
+}
+
+#nav li {
+	float: left;
+	margin-right: 30px;
+}
+.search{
+	float: right;
+	margin-top: -18px;
+	font-size: 14px;
 }

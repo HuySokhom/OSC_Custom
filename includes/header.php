@@ -16,9 +16,9 @@
 ?>
 
 <div id="header" class="grid_24">
-  <div id="storeLogo"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
+	<div id="storeLogo"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
 
-  <div id="headerShortcuts">
+	<div id="headerShortcuts">
 <?php
   echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'cart', tep_href_link(FILENAME_SHOPPING_CART)) .
        tep_draw_button(HEADER_TITLE_CHECKOUT, 'triangle-1-e', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL')) .
@@ -30,22 +30,35 @@
 ?>
   </div>
 
-<script type="text/javascript">
+	<script type="text/javascript">
   $("#headerShortcuts").buttonset();
 </script>
 </div>
 
 <div class="grid_24 ui-widget infoBoxContainer">
-  <div class="ui-widget-header infoBoxHeading"><?php echo '&nbsp;&nbsp;' . $breadcrumb->trail(' &raquo; '); ?></div>
+	<div class="ui-widget-header infoBoxHeading">
+		
+		<ul id='nav'>
+			<li><a href='#'>Home</a></li>
+			<li><a href='products_new.php'>What's New</a></li>
+			<li><a href='specials.php'>Specials</a></li>
+			<li><a href='checkout_shipping.php'>Check Out</a></li>
+			<li><a href='account.php'>Account</a></li>
+			<li><a href='#'>Contact</a></li>
+		</ul>
+		<div class="search">
+			<input type="text"><button>Search</button>
+		</div>
+  <?php //echo $breadcrumb->trail(' &raquo; '); ?></div>
 </div>
 
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
-  <tr class="headerError">
-    <td class="headerError"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?></td>
-  </tr>
+	<tr class="headerError">
+		<td class="headerError"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?></td>
+	</tr>
 </table>
 <?php
   }
@@ -53,9 +66,9 @@
   if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
 ?>
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
-  <tr class="headerInfo">
-    <td class="headerInfo"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?></td>
-  </tr>
+	<tr class="headerInfo">
+		<td class="headerInfo"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?></td>
+	</tr>
 </table>
 <?php
   }

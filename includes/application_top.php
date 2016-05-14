@@ -63,7 +63,14 @@
   require(DIR_WS_FUNCTIONS . 'database.php');
 
 // make a connection to the database... now
-  tep_db_connect() or die('Unable to connect to database server!');
+  /*
+   * TODO: review
+  */
+  // make a connection to the database... now
+ 
+//   tep_db_connect() or die('Unable to connect to database server!');
+  $dbLink = tep_db_connect() or die('Unable to connect to database server!');
+	RestApiResources::setDbRes( $dbLink );
 
 // set the application parameters
   $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
@@ -170,7 +177,7 @@
     $spider_flag = false;
 
     if (tep_not_null($user_agent)) {
-      $spiders = file(DIR_WS_INCLUDES . 'spiders.txt');
+      $spiders = file(DIR_FS_CATALOG. DIR_WS_INCLUDES . 'spiders.txt');
 
       for ($i=0, $n=sizeof($spiders); $i<$n; $i++) {
         if (tep_not_null($spiders[$i])) {

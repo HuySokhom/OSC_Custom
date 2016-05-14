@@ -12,12 +12,20 @@
 
   require(DIR_WS_INCLUDES . 'counter.php');
 ?>
-
-<div class="grid_24 footer">
-  <p align="center"><?php echo FOOTER_TEXT_BODY; ?></p>
+<style>
+.footer{
+	clear: both;
+	width: 100%;
+	background: #5c9;
+	height: 80px;
+	margin-top: 10px;
+}
+</style>
+<div class="footer">
+  <p align="center" style="padding-top: 23px"><?php echo FOOTER_TEXT_BODY; ?></p>
 </div>
 
-<?php
+<?php /*
   if ($banner = tep_banner_exists('dynamic', 'footer')) {
 ?>
 
@@ -26,7 +34,7 @@
 </div>
 
 <?php
-  }
+  }*/
 ?>
 
 <script type="text/javascript">
